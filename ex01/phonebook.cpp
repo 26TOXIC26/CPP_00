@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   phonebook.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amousaid <amousaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:35:55 by amousaid          #+#    #+#             */
-/*   Updated: 2024/12/21 10:40:01 by amousaid         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:36:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phonebook.hpp"
 
-void searchContact (Phonebook phonebook)
+int searchContact (Phonebook phonebook)
 {
 	int i = 0;
 	std::string index;
@@ -26,8 +26,12 @@ void searchContact (Phonebook phonebook)
 		std::cout << std::endl;
 		i++;
 	}
-	std::cout << BLUE"Enter the index of the contact: "BLUE;
-	std::cin >> index;
+	if (phonebook.contacts_count == 0)
+		return (1);
+	std::cout << BLUE "Enter the index of the contact: " RESET;
+	std::getline(std::cin, index);
+	if (std::cin.eof())
+		return (0);
 	std::stringstream ss(index);
 	ss >> i;
 	if (i >= 0 && i < phonebook.contacts_count)
@@ -40,24 +44,75 @@ void searchContact (Phonebook phonebook)
 	}
 	else
 		std::cout << "Invalid index" << std::endl;
+	std::cin.clear();
+	return (1);
 }
 
-void getInfo(Phonebook *phonebook)
+int checkInputPrintable(std::string input)
 {
-	std::cout << GREEN"Enter the first name: "RESET;
-	std::cin >> phonebook->contacts[phonebook->contacts_count].first_name;
-	std::cout << GREEN"Enter the last name: "RESET;
-	std::cin >> phonebook->contacts[phonebook->contacts_count].last_name;
-	std::cout << GREEN"Enter the nickname: "RESET;
-	std::cin >> phonebook->contacts[phonebook->contacts_count].nickname;
-	std::cout << GREEN"Enter the phone number: "RESET;;
-	std::cin >> phonebook->contacts[phonebook->contacts_count].phone_number;
-	std::cout << GREEN"Enter the darkest secret: "RESET;;
-	std::cin >> phonebook->contacts[phonebook->contacts_count].darkest_secret;
-	phonebook->contacts_count++;
+	int i = 0;
+	while (input[i])
+	{
+		if (!isprint(input[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void changeFirstContact(Phonebook *phonebook)
+int getInfo(Phonebook *phonebook)
+{
+	std::string input;
+	input = "";
+	while (input == "" || !checkInputPrintable(input))
+	{
+		std::cout << BLUE "Enter the first name: " RESET;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (0);
+	}
+	phonebook->contacts[phonebook->contacts_count].first_name = input;
+	input = "";
+	while (input == "" || !checkInputPrintable(input))
+	{
+		std::cout << BLUE "Enter the last name: " RESET;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (0);
+	}
+	phonebook->contacts[phonebook->contacts_count].last_name = input;
+	input = "";
+	while (input == "" || !checkInputPrintable(input))
+	{
+		std::cout << BLUE "Enter the nickname: " RESET;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (0);
+	}
+	phonebook->contacts[phonebook->contacts_count].nickname = input;
+	input = "";
+	while (input == "" || !checkInputPrintable(input))
+	{
+		std::cout << BLUE "Enter the phone number: " RESET;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (0);
+	}
+	phonebook->contacts[phonebook->contacts_count].phone_number = input;
+	input = "";
+	while (input == "" || !checkInputPrintable(input))
+	{
+		std::cout << BLUE "Enter the darkest secret: " RESET;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (0);
+	}
+	phonebook->contacts[phonebook->contacts_count].darkest_secret = input;
+	phonebook->contacts_count++;
+	return (1);
+}
+
+int changeFirstContact(Phonebook *phonebook)
 {
 	int i = 0;
 	while (i < 7)
@@ -66,7 +121,7 @@ void changeFirstContact(Phonebook *phonebook)
 		i++;
 	}
 	phonebook->contacts_count--;
-	getInfo(phonebook);
+	return (getInfo(phonebook));
 }
 
 int main()
@@ -74,25 +129,37 @@ int main()
 	Phonebook phonebook;
 	std::string command;
 	phonebook.contacts_count = 0;
+	int exit = 1;
 	while (1)
 	{
-		std::cout << BLUE"Enter a command: "RESET;
-		std::cin >> command;
+		std::cin.clear();
+		std::cout << BLUE "Enter a command: " RESET;
+		std::getline(std::cin, command);
+		if (std::cin.eof())
+		{
+			std::cout << RED "Exiting..." RESET << std::endl;
+			return (0);
+		}
 		if (command == "ADD")
 		{
 			if (phonebook.contacts_count < 8)
-				getInfo(&phonebook);
+				exit = getInfo(&phonebook);
 			else
-				changeFirstContact(&phonebook);
+				exit = changeFirstContact(&phonebook);
 		}
 		else if (command == "EXIT")
 		{
-			std::cout << RED"Exiting..."RESET << std::endl;
+			std::cout << RED "Exiting..." RESET << std::endl;
 			return (0);
 		}
 		else if (command == "SEARCH")
-			searchContact(phonebook);
+			exit = searchContact(phonebook);
 		else
-			std::cout << RED"Invalid command"RESET << std::endl;
+			std::cout << RED "Invalid command" RESET << std::endl;
+		if (exit == 0)
+		{
+			std::cout << RED "Exiting..." RESET << std::endl;
+			return (0);
+		}
 	}
 }

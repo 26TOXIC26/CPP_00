@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.hpp                                      :+:      :+:    :+:   */
+/*   contact.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 11:35:59 by amousaid          #+#    #+#             */
-/*   Updated: 2024/12/24 13:18:05 by codespace        ###   ########.fr       */
+/*   Created: 2024/12/24 13:14:19 by codespace         #+#    #+#             */
+/*   Updated: 2024/12/24 13:19:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONEBOOK_HPP
-#define PHONEBOOK_HPP
+# ifndef CONTACT_H
+# define CONTACT_H
 
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-# include "contact.h"
-# include "colors.h"
+// #include <string>
 
-class Phonebook
+class Contact
 {
 	public:
-		Contact contacts[8];
-		int contacts_count;
+		std::string first_name;
+		std::string last_name;
+		std::string nickname;
+		std::string phone_number;
+		std::string darkest_secret;
 };
 
 #endif

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.hpp                                      :+:      :+:    :+:   */
+/*   colors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 11:35:59 by amousaid          #+#    #+#             */
-/*   Updated: 2024/12/24 13:18:05 by codespace        ###   ########.fr       */
+/*   Created: 2024/12/24 13:17:25 by codespace         #+#    #+#             */
+/*   Updated: 2024/12/24 13:18:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONEBOOK_HPP
-#define PHONEBOOK_HPP
+# ifndef COLORS_H
+# define COLORS_H
 
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-# include "contact.h"
-# include "colors.h"
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
 
-class Phonebook
-{
-	public:
-		Contact contacts[8];
-		int contacts_count;
-};
-
-#endif
+# endif
